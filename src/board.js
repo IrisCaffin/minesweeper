@@ -1,34 +1,4 @@
-class Game {
-  constructor (numberOfRows, numberOfColumns, numberOfBombs) {
-    this._board = new Board(numberOfRows, numberOfColumns, numberOfBombs);
-  }
-
-  playMove(rowIndex, columnIndex) {
-    this._board.flipTile(rowIndex, columnIndex);
-
-    // If there is a bomb at the flipped location, tell player game over
-    if (this._board.playerBoard[rowIndex][columnIndex] === 'B') {
-      console.log('Game over! Here\'s the final board: ');
-      this._board.print();
-    }
-    // If there's no bomb at the flipped location, and game is not over,
-    // tell player current board
-    else if (this._board.hasSafeTiles()) {
-      console.log('Keep going! Here\'s your current board: ');
-      this._board.print();
-    }
-    // If there's no bomb at the flipped location, and game is over,
-    // tell player they won
-    else {
-      console.log('Congrats, you won!');
-      console.log('Here\'s your winning board: ');
-      this._board.print();
-    }
-  }
-}
-
-
-class Board {
+export class Board {
   constructor (numberOfRows, numberOfColumns, numberOfBombs) {
     this._numberOfBombs = numberOfBombs;
     this._numberOfTiles = numberOfRows * numberOfColumns;
@@ -114,19 +84,12 @@ class Board {
     while (numberOfBombsPlaced < numberOfBombs) {
       let randomRowIndex = Math.floor(Math.random() * numberOfRows);
       let randomColumnIndex = Math.floor(Math.random() * numberOfColumns);
+
       if (board[randomRowIndex][randomColumnIndex] !== 'B') {
         board[randomRowIndex][randomColumnIndex] = 'B';
         numberOfBombsPlaced++;
       }
-      board[randomRowIndex][randomColumnIndex] = 'B';
-      numberOfBombsPlaced++;
-      // An important note: The code in your while loop has the
-      // potential to place bombs on top of already existing bombs.
-      // This will be fixed when you learn about control flow.
     }
     return board;
   }
 }
-
-const g = new Game(3,3,3);
-g.playMove(1,2);
